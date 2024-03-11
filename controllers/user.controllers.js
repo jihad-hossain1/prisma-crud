@@ -49,21 +49,23 @@ const getAllUser = async(req,res)=>{
 
 
 const singleUser = async(req,res)=>{
-    const {id} = req.params;
-    console.log(id)
-    try {
-        const user = await prisma.user.findUnique({
-          where: { id },
-          include: { posts: true },
-        });
-        if(user){
-            res.json(user)
-        }else{
-            return res.json({message: 'user are not found'})
-        }
-    } catch (error) {
-        return res.status(500).json({error: error, message: "error from server"})
+  const { id } = req.params;
+  // console.log(id)
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id },
+      //   include: { posts: true },
+      select: { id: true, name: true, email: true, posts: true },
+    });
+
+    if (user) {
+      res.json(user);
+    } else {
+      return res.json({ message: "user are not found" });
     }
+  } catch (error) {
+    return res.status(500).json({ error: error, message: "error from server" });
+  }
 }
 
 
