@@ -31,4 +31,14 @@ const createPost = async (req, res) => {
   }
 };
 
-module.exports = { createPost };
+
+const getPosts = async (req, res) => {
+  try {
+    const posts = await prisma.post.findMany();
+    return res.json(posts);
+  } catch (error) {
+    return res.status(500).json({ error: error, message: "error from server" });
+  }
+};
+
+module.exports = { createPost, getPosts };

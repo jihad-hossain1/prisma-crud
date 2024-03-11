@@ -52,7 +52,10 @@ const singleUser = async(req,res)=>{
     const {id} = req.params;
     console.log(id)
     try {
-        const user = await prisma.user.findUnique({where: { id}})
+        const user = await prisma.user.findUnique({
+          where: { id },
+          include: { posts: true },
+        });
         if(user){
             res.json(user)
         }else{
